@@ -1,10 +1,10 @@
 <div class="container">
-    <h1>Choose the Spec</h1>
+    <h1>Choose the Spec or copy paste the spec on the below editor:</h1>
     <input type="file" class="file-upload" (change)="onFileSelected($event)" #fileUpload>
     <div class="content">
         <app-editor [(text)]="specFileContent" mode="yaml" ></app-editor>
     </div>
     <nav>
-        <a routerLink="../review">Generate</a>
+        <a (click)="handleGeneration()">Generate</a>
     </nav>
 </div>

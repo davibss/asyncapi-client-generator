@@ -79,7 +79,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.editor.setOptions(this.options);
     this.editor.setValue(this.text, -1);
     this.editor.setReadOnly(this.readOnly);
-    this.editor.setTheme('ace/theme/dracula');
+    this.editor.setTheme('ace/theme/github_dark');
     this.setEditorMode_();
     this.editor.session.setUseWorker(false);
     this.editor.on('change', () => this.onEditorTextChange_());

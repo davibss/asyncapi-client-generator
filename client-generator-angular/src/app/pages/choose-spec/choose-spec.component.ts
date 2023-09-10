@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FileHandlerService } from 'src/app/services/file-handler.service';
+import { TemplateClientGeneratorService } from 'src/app/services/template-client-generator.service';
 
 @Component({
   selector: 'app-choose-spec',
@@ -7,7 +8,6 @@ import { FileHandlerService } from 'src/app/services/file-handler.service';
   styleUrls: ['./choose-spec.component.css']
 })
 export class ChooseSpecComponent {
-
   specFileContent: string;
   private fileReader;
 
@@ -17,7 +17,10 @@ export class ChooseSpecComponent {
     }
   }
 
-  constructor(private fileHandlerService: FileHandlerService) {
+  constructor(
+    private fileHandlerService: FileHandlerService,
+    private templateClientGenerator: TemplateClientGeneratorService
+  ) {
     this.specFileContent = "No content yet";
     this.fileReader = new FileReader();
     this.fileReader.onload = (e) => {
@@ -33,4 +36,8 @@ export class ChooseSpecComponent {
 
     this.fileHandlerService.setSpecFile(firstFile);
   }
+
+  handleGeneration() {
+    this.templateClientGenerator.generateClient();
+  }    
 }

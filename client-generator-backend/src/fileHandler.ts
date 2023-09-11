@@ -11,3 +11,7 @@ export function clearIOs(paths: string[]) {
         // fs.rmSync
     }
 }
+
+export function renameFile(path: string, newPath: string) {
+    fs.renameSync(path, newPath);
+}

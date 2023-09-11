@@ -1,8 +1,10 @@
 import express from "express";
 import { Router, Request, Response } from "express";
-import { deleteFile } from "./fileHandler";
-import { TemplateEnum, generateClient } from "./generateClient";
+import { BASE_DIR, deleteFile } from "./fileHandler";
+import { generateClient } from "./generateClient";
 import { upload } from "./upload";
+import path from "path";
+import { TemplateType, templates } from "./templateModel";
 
 const app = express();
 const route = Router();
@@ -13,9 +15,9 @@ app.use(express.urlencoded({extended: true}));
 route.post("/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {
   const reqFile = req.file;
   var responseKey = "";
-  var responseMessage = "";
-  var selectedTemplate: TemplateEnum = TemplateEnum.CPP;
-  selectedTemplate = req.query["template"] as TemplateEnum;
+  var responseMessage: any;
+  var selectedTemplate: TemplateType = "CPP";
+  selectedTemplate = req.query["template"] as TemplateType;
   var params;
 
   try {
@@ -32,9 +34,12 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
 
   if (selectedTemplate && responseKey !== "error") {
     const genResponse = await generateClient(reqFile, selectedTemplate, params);
-    if (genResponse) {
+    if (genResponse !== undefined) {
       responseKey = "message";
-      responseMessage = "Client code generated!";
+      responseMessage = {
+        "message": "Client code generated!",
+        "ID": genResponse
+      };
     } else {
       responseKey = "error";
       responseMessage = "Some error has occurred!";
@@ -47,9 +52,14 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
     deleteFile(req.file?.path);
   }
 
-  var response: {[key: string]: string} = {};
+  
+  var response: {[key: string]: any} = {};
   response[responseKey] = responseMessage;
   res.json(response);
+});
+
+route.get("/download_client", (req: Request, res: Response) => {
+
 });
 
 app.use(route);

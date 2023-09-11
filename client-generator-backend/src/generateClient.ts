@@ -1,34 +1,17 @@
 const Generator = require("@asyncapi/generator");
 import path from "path";
-import { BASE_DIR, clearIOs } from "./fileHandler";
+import { BASE_DIR, clearIOs, renameFile } from "./fileHandler";
+import { TemplateType, templates } from "./templateModel";
+import crypto from "crypto";
 
 require('dotenv').config();
 
-export enum TemplateEnum {
-    CPP = "CPP",
-    ANGULAR = "ANGULAR"
-}
-const templates: {[key in TemplateEnum]: {name: string, link: string, params: string[], output: string}} = {
-    CPP: {
-        name: "CPlusPlusTemplate",
-        link: "./node_modules/cpp-template",
-        params: [],
-        output: path.join(BASE_DIR, "output/cplusplusoutput")
-    },
-    ANGULAR: {
-        name: "AngularTemplate",
-        link: "./node_modules/angular-template",
-        params: [],
-        output: path.join(BASE_DIR, "output/angularoutput")
-    }
-};
-
 async function generateClient(
     specFile: Express.Multer.File | undefined, 
-    template: TemplateEnum,
+    template: TemplateType,
     params: {[key: string]: string}
-): Promise<boolean> {
-    var result = false;
+): Promise<string | undefined> {
+    var result: string | undefined = undefined;
 
     const choosedTemplate = templates[template];
     const generator = new Generator(
@@ -43,13 +26,15 @@ async function generateClient(
     try {
         if (specFile) {
             await generator.generateFromFile(specFile.path);
-            console.log('Done!');
-            result = true;
+            const fileID = crypto.randomUUID();
+            const filePath = path.join(templates[template].output, `asyncapi_${template.toLowerCase()}_client.zip`);
+            const newFilePath = filePath.replace(`asyncapi_${template.toLowerCase()}_client.zip`, `${fileID}.zip`);
+            renameFile(filePath, newFilePath);
+            result = fileID;
             clearIOs([specFile.path, choosedTemplate.output]);
         }
     } catch (e) {
         console.error(e);
-        result = false;
     }
 
     return result;

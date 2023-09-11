@@ -1,6 +1,8 @@
 const Generator = require("@asyncapi/generator");
 import path from "path";
-import { clearIOs } from "./fileHandler";
+import { BASE_DIR, clearIOs } from "./fileHandler";
+
+require('dotenv').config();
 
 export enum TemplateEnum {
     CPP = "CPP",
@@ -11,13 +13,13 @@ const templates: {[key in TemplateEnum]: {name: string, link: string, params: st
         name: "CPlusPlusTemplate",
         link: "./node_modules/cpp-template",
         params: [],
-        output: "output/cplusplusoutput"
+        output: path.join(BASE_DIR, "output/cplusplusoutput")
     },
     ANGULAR: {
         name: "AngularTemplate",
         link: "./node_modules/angular-template",
         params: [],
-        output: "output/angularoutput"
+        output: path.join(BASE_DIR, "output/angularoutput")
     }
 };
 

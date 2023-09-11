@@ -47,7 +47,9 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
     deleteFile(req.file?.path);
   }
 
-  res.json({responseKey: responseMessage});
+  var response: {[key: string]: string} = {};
+  response[responseKey] = responseMessage;
+  res.json(response);
 });
 
 app.use(route);

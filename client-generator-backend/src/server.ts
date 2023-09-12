@@ -12,6 +12,10 @@ const route = Router();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+route.get("/", (req: Request, res: Response) => {
+  res.send("Express backend to generate client code from AsyncAPI specification");
+});
+
 route.post("/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {
   const reqFile = req.file;
   var responseKey = "";
@@ -76,7 +80,7 @@ route.get("/ping", (req: Request, res: Response) => {
 
 app.use(route);
 
-const port = 3333;
+const port = process.env.PORT || 3333;
 
 app.listen(3333, () => {
   console.log(`App running on port ${port}`);

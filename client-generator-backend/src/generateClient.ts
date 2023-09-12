@@ -1,4 +1,4 @@
-const Generator = require("@asyncapi/generator");
+const generator = require("@asyncapi/generator");
 import path from "path";
 import { clearIOs } from "./fileHandler";
 import { TemplateType, templates } from "./templateModel";
@@ -15,7 +15,7 @@ async function generateClient(
 
     const templateOutput = path.join(choosedTemplate.output, fileID);
 
-    const generator = new Generator(
+    const generatorInstance = new generator(
         choosedTemplate.link, 
         path.resolve(templateOutput), 
         {
@@ -26,7 +26,7 @@ async function generateClient(
 
     try {
         if (specFile) {
-            await generator.generateFromFile(specFile.path);
+            await generatorInstance.generateFromFile(specFile.path);
             result = fileID;
             clearIOs([specFile.path, choosedTemplate.output]);
         }

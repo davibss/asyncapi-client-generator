@@ -22,6 +22,9 @@ const app = (0, express_1.default)();
 const route = (0, express_2.Router)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+route.get("/", (req, res) => {
+    res.send("Express backend to generate client code from AsyncAPI specification");
+});
 route.post("/generate", upload_1.upload.single('asyncapispec'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const reqFile = req.file;
@@ -79,7 +82,7 @@ route.get("/ping", (req, res) => {
     res.json({ "message": "PONG" });
 });
 app.use(route);
-const port = 3333;
+const port = process.env.PORT || 3333;
 app.listen(3333, () => {
     console.log(`App running on port ${port}`);
 });

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateClient = void 0;
-const Generator = require("@asyncapi/generator");
+const generator = require("@asyncapi/generator");
 const path_1 = __importDefault(require("path"));
 const fileHandler_1 = require("./fileHandler");
 const templateModel_1 = require("./templateModel");
@@ -24,13 +24,13 @@ function generateClient(specFile, template, params) {
         const fileID = crypto_1.default.randomUUID();
         const choosedTemplate = templateModel_1.templates[template];
         const templateOutput = path_1.default.join(choosedTemplate.output, fileID);
-        const generator = new Generator(choosedTemplate.link, path_1.default.resolve(templateOutput), {
+        const generatorInstance = new generator(choosedTemplate.link, path_1.default.resolve(templateOutput), {
             forceWrite: true,
             templateParams: params
         });
         try {
             if (specFile) {
-                yield generator.generateFromFile(specFile.path);
+                yield generatorInstance.generateFromFile(specFile.path);
                 result = fileID;
                 (0, fileHandler_1.clearIOs)([specFile.path, choosedTemplate.output]);
             }

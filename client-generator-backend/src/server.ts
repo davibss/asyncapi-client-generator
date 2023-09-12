@@ -70,6 +70,10 @@ route.get("/download_client/:id", (req: Request, res: Response) => {
   }
 });
 
+route.get("/ping", (req: Request, res: Response) => {
+  res.json({"message": "PONG"});
+});
+
 app.use(route);
 
 const port = 3333;

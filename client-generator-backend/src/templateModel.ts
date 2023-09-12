@@ -8,12 +8,12 @@ export const templates: {[key in TemplateType]: {name: string, link: string, par
         name: "CPlusPlusTemplate",
         link: "./node_modules/cpp-template",
         params: [],
-        output: path.join(BASE_DIR, "output/cplusplusoutput")
+        output: path.join(BASE_DIR, "output")
     },
     "ANGULAR": {
         name: "AngularTemplate",
         link: "./node_modules/angular-template",
         params: [],
-        output: path.join(BASE_DIR, "output/angularoutput")
+        output: path.join(BASE_DIR, "output")
     }
 };

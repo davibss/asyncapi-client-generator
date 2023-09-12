@@ -1,6 +1,6 @@
 import express from "express";
 import { Router, Request, Response } from "express";
-import { BASE_DIR, deleteFile } from "./fileHandler";
+import { BASE_DIR, deleteDir, deleteFile, extractZipFileFromPath } from "./fileHandler";
 import { generateClient } from "./generateClient";
 import { upload } from "./upload";
 import path from "path";
@@ -58,8 +58,16 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
   res.json(response);
 });
 
-route.get("/download_client", (req: Request, res: Response) => {
-
+route.get("/download_client/:id", (req: Request, res: Response) => {
+  const filePath = path.join(BASE_DIR, "output", req.params.id);
+  const zipFile = extractZipFileFromPath(filePath);
+  if (zipFile) {
+    res.download(path.join(filePath, zipFile), (err) => {
+      if (err === undefined) {
+        deleteDir(filePath);
+      }
+    });
+  }
 });
 
 app.use(route);

@@ -32,4 +32,10 @@ export class ReviewCodeComponent implements OnInit {
     console.log(this.selectedMode);
   }
 
+  async handleDownloadButton() {
+    const zipFile = this.fileHandlerService.getGeneratedZipFile();
+    const data = await zipFile?.arrayBuffer();
+    this.fileHandlerService.downLoadFile(data, 'application/zip', "generated_code.zip");
+  }
+
 }

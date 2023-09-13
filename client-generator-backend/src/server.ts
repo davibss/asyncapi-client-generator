@@ -12,6 +12,14 @@ const route = Router();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", 
+             "http://localhost:4200");
+  res.header("Access-Control-Allow-Headers", 
+             "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 route.get("/", (req: Request, res: Response) => {
   res.send("Express backend to generate client code from AsyncAPI specification");
 });
@@ -48,14 +56,11 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
       responseKey = "error";
       responseMessage = "Some error has occurred!";
     }
-  } else {
-    
   }
 
   if (req.file) {
     deleteFile(req.file?.path);
   }
-
   
   var response: {[key: string]: any} = {};
   response[responseKey] = responseMessage;

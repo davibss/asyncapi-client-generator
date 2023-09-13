@@ -27,7 +27,7 @@ async function generateClient(
 
     try {
         if (specFile) {
-            await generatorInstance.generateFromFile(specFile.path);
+            const _ = await generatorInstance.generateFromFile(specFile.path);
             result = fileID;
             clearIOs([specFile.path, choosedTemplate.output]);
         }

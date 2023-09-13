@@ -1,4 +1,5 @@
-const generator = require("@asyncapi/generator");
+// @ts-ignore
+import generator from "@asyncapi/generator";
 import path from "path";
 import { clearIOs } from "./fileHandler";
 import { TemplateType, templates } from "./templateModel";

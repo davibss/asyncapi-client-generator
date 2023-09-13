@@ -1,1 +1,13 @@
-<p>review-code works!</p>
+<div>
+    <h1>Files</h1>
+    <div class="container">
+        <div class="file-container">
+            <p *ngFor="let file of files" (click)="handleOnClickFile(file)">
+                {{file.name}}
+            </p>
+        </div>
+        <div class="code-container">
+            <app-editor [(text)]="selectedFileContent" [mode]="selectedMode"></app-editor>
+        </div>
+    </div>
+</div>

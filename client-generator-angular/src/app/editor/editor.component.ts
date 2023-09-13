@@ -25,7 +25,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() textChange = new EventEmitter<string>();
   @Input() text!: string;
   @Input() readOnly: boolean = false;
-  @Input() mode: string = 'json';
+  @Input() mode: string = 'ace/mode/json';
   @Input() prettify: boolean = true;
 
   editor!: Ace.Editor;
@@ -101,7 +101,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private setEditorMode_(): void {
-    this.editor.getSession().setMode(`ace/mode/${this.mode}`);
+    // this.editor.getSession().setMode(`ace/mode/${this.mode}`);
+    this.editor.getSession().setMode(this.mode);
   }
 
 }

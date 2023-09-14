@@ -47,19 +47,27 @@ export class TemplateClientGeneratorService {
     }, 1000);
   }
 
-  private async generateFromSpecFile(specFile: File) {  
+  private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP") {  
     const formData = new FormData();
     formData.append("asyncapispec", specFile);
     console.log("Generating code...")
     this.http
-      .post(`${this.baseURL}/generate?template=CPP&params={"zip": "true"}`, formData)
+      .post(`${this.baseURL}/generate`, 
+        formData,
+        {
+          params: {
+            "template": templateLanguage,
+            "params": `{"zip": "true"}`
+          }
+        }
+      )
       .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse));
   }
 
-  generateClient() {
+  generateClient(templateLanguage: string) {
     const specInput = this.fileHandlerService.getSpecFile();
     if (specInput) {
-     this.generateFromSpecFile(specInput);
+     this.generateFromSpecFile(specInput, templateLanguage);
     }
   }
 }

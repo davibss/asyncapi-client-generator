@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FileHandlerService } from 'src/app/services/file-handler.service';
 import { TemplateClientGeneratorService } from 'src/app/services/template-client-generator.service';
 
@@ -7,9 +8,10 @@ import { TemplateClientGeneratorService } from 'src/app/services/template-client
   templateUrl: './choose-spec.component.html',
   styleUrls: ['./choose-spec.component.css']
 })
-export class ChooseSpecComponent {
+export class ChooseSpecComponent implements OnInit, AfterViewInit {
   specFileContent: string;
   private fileReader;
+  @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
 
   private handleFileHandlerSubscribe(file: File, fileReader: FileReader) {
     if (file) {
@@ -19,7 +21,8 @@ export class ChooseSpecComponent {
 
   constructor(
     private fileHandlerService: FileHandlerService,
-    private templateClientGenerator: TemplateClientGeneratorService
+    private templateClientGenerator: TemplateClientGeneratorService,
+    private router: Router
   ) {
     this.specFileContent = "No content yet";
     this.fileReader = new FileReader();
@@ -27,6 +30,20 @@ export class ChooseSpecComponent {
       this.specFileContent = this.fileReader.result?.toString() ?? "";
     };
     fileHandlerService.subscribeToSpecFile().subscribe(file => this.handleFileHandlerSubscribe(file, this.fileReader));
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    const file = this.fileHandlerService.getSpecFile();
+    if (this.fileUpload && file && this.fileReader) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      this.fileUpload.nativeElement.files = dataTransfer.files;
+      this.fileReader.readAsText(file);
+    }
+    console.log(file?.name);
   }
 
   onFileSelected(event: Event) {
@@ -37,7 +54,8 @@ export class ChooseSpecComponent {
     this.fileHandlerService.setSpecFile(firstFile);
   }
 
-  handleGeneration() {
-    this.templateClientGenerator.generateClient();
-  }    
+  handleChooseGenerator() {
+    this.router.navigate(['generation', 'generator']);
+  }
+     
 }

@@ -6,11 +6,11 @@ import { AppComponent } from './app.component';
 import { GenerationProgressComponent } from './components/generation-progress/generation-progress.component';
 import { ChooseSpecComponent } from './pages/choose-spec/choose-spec.component';
 import { ReviewCodeComponent } from './pages/review-code/review-code.component';
-import { DownloadCodeComponent } from './pages/download-code/download-code.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { EditorModule } from './editor/editor.module';
 import { HttpClientModule } from '@angular/common/http';
+import { GeneratorComponent } from './pages/generator/generator.component';
 
 @NgModule({
   declarations: [
@@ -18,9 +18,9 @@ import { HttpClientModule } from '@angular/common/http';
     GenerationProgressComponent,
     ChooseSpecComponent,
     ReviewCodeComponent,
-    DownloadCodeComponent,
     HomeComponent,
-    LandingComponent
+    LandingComponent,
+    GeneratorComponent
   ],
   imports: [
     BrowserModule,

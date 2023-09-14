@@ -1,0 +1,20 @@
+<div>
+    <input 
+        type="radio" 
+        id="cpp" 
+        name="language" 
+        value="CPP" 
+        checked
+        (change)="selectedTemplate = 'CPP'"
+    >
+    <label for="cpp">CPP</label><br>
+    <input 
+        type="radio" 
+        id="angular" 
+        name="language" 
+        value="Angular"
+        (change)="selectedTemplate = 'ANGULAR'"
+    >
+    <label for="angular">Angular</label><br>
+    <button (click)="handleGenerateCode()">Generate code</button>
+</div>

@@ -11,6 +11,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { EditorModule } from './editor/editor.module';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneratorComponent } from './pages/generator/generator.component';
+import { UploadSvgComponent } from './components/upload-svg/upload-svg.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GeneratorComponent } from './pages/generator/generator.component';
     ReviewCodeComponent,
     HomeComponent,
     LandingComponent,
-    GeneratorComponent
+    GeneratorComponent,
+    UploadSvgComponent
   ],
   imports: [
     BrowserModule,

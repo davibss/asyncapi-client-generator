@@ -1,10 +1,14 @@
 <div class="container">
-    <h1>Choose the Spec or copy paste the spec on the below editor:</h1>
-    <input type="file" class="file-upload" (change)="onFileSelected($event)" #fileUpload>
+    <h1>Choose the Spec or copy paste the spec on the editor</h1>
+    <input type="file" name="file" id="file" class="file-upload" (change)="onFileSelected($event)" #fileUpload>
+    <label for="file">
+        <app-upload-svg class="icon" />
+        <span>Choose a file</span>
+    </label>
     <div class="content">
         <app-editor [(text)]="specFileContent" mode="ace/mode/yaml" ></app-editor>
     </div>
     <nav>
-        <a (click)="handleChooseGenerator()">Choose Generator</a>
+        <a (click)="handleChooseGenerator()">Next step</a>
     </nav>
 </div>

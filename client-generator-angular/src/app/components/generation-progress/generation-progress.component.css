@@ -1,5 +1,35 @@
 .container {
-    width: 100%;
     display: flex;
     gap: 1rem;
+    padding: 1.5rem;
+    align-items: center;
+
+    background-color: var(--dark-primary-color);
+}
+
+.container .arrow {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.container nav a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-icons);
+    background-color: var(--primary-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    transition: font-size 0.2s;
+}
+
+.container nav a:hover {
+    font-size: 1.05rem;
+}
+
+.container nav a:active {
+    font-size: 1rem;
 }

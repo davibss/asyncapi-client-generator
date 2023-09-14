@@ -8,7 +8,7 @@ import { TemplateClientGeneratorService } from 'src/app/services/template-client
   templateUrl: './choose-spec.component.html',
   styleUrls: ['./choose-spec.component.css']
 })
-export class ChooseSpecComponent implements OnInit, AfterViewInit {
+export class ChooseSpecComponent implements AfterViewInit {
   specFileContent: string;
   private fileReader;
   @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
@@ -32,9 +32,6 @@ export class ChooseSpecComponent implements OnInit, AfterViewInit {
     fileHandlerService.subscribeToSpecFile().subscribe(file => this.handleFileHandlerSubscribe(file, this.fileReader));
   }
 
-  ngOnInit(): void {
-  }
-
   ngAfterViewInit(): void {
     const file = this.fileHandlerService.getSpecFile();
     if (this.fileUpload && file && this.fileReader) {
@@ -43,7 +40,6 @@ export class ChooseSpecComponent implements OnInit, AfterViewInit {
       this.fileUpload.nativeElement.files = dataTransfer.files;
       this.fileReader.readAsText(file);
     }
-    console.log(file?.name);
   }
 
   onFileSelected(event: Event) {

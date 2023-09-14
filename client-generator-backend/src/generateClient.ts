@@ -4,9 +4,21 @@ import path from "path";
 import { clearIOs } from "./fileHandler";
 import { TemplateType, templates } from "./templateModel";
 import crypto from "crypto";
+import { File } from "buffer";
+import { spec } from "node:test/reporters";
+import multer from "multer";
+
+async function generateClientFromString(
+    specContent: string | undefined,
+    template: TemplateType,
+    params: {[key: string]: string}
+): Promise<string | undefined> {
+    return generateClient(specContent, template, params);
+    // return generateClient
+}
 
 async function generateClient(
-    specFile: Express.Multer.File | undefined, 
+    specFile: Express.Multer.File | string | undefined, 
     template: TemplateType,
     params: {[key: string]: string}
 ): Promise<string | undefined> {
@@ -27,9 +39,13 @@ async function generateClient(
 
     try {
         if (specFile) {
-            const _ = await generatorInstance.generateFromFile(specFile.path);
             result = fileID;
-            clearIOs([specFile.path, choosedTemplate.output]);
+            if (typeof specFile === "string") {
+                const _ = await generatorInstance.generateFromString(specFile);
+            } else {
+                const _ = await generatorInstance.generateFromFile((specFile as Express.Multer.File).path);
+                clearIOs([(specFile as Express.Multer.File).path, choosedTemplate.output]);
+            }
         }
     } catch (e) {
         console.error(e);
@@ -39,5 +55,6 @@ async function generateClient(
 }
 
 export {
+    generateClientFromString,
     generateClient
 };

@@ -1,10 +1,12 @@
 import express from "express";
 import { Router, Request, Response } from "express";
 import { BASE_DIR, deleteDir, deleteFile, extractZipFileFromPath } from "./fileHandler";
-import { generateClient } from "./generateClient";
+import { generateClient, generateClientFromString } from "./generateClient";
 import { upload } from "./upload";
 import path from "path";
 import { TemplateType, templates } from "./templateModel";
+import multer from "multer";
+const uploadMulter = multer();
 
 const app = express();
 const route = Router();
@@ -22,6 +24,44 @@ app.use((req, res, next) => {
 
 route.get("/", (req: Request, res: Response) => {
   res.send("Express backend to generate client code from AsyncAPI specification");
+});
+
+route.post("/generate_from_string", uploadMulter.none(), async (req: Request, res: Response) => {
+  var responseKey = "";
+  var responseMessage: any;
+  var selectedTemplate: TemplateType = "CPP";
+  selectedTemplate = req.query["template"] as TemplateType;
+  var params;
+
+  try {
+    params = JSON.parse(req.query["params"] !== undefined ? req.query["params"] as string : "{}");
+  } catch(e) {
+    responseKey = "error";
+    responseMessage = "The value passed to 'params' is not a valid JSON";
+  }
+
+  if (selectedTemplate === undefined) {
+    responseKey = "error";
+    responseMessage = "This template does not exist. The valid template are CPP and ANGULAR";
+  }
+
+  if (selectedTemplate && responseKey !== "error") {
+    const genResponse = await generateClientFromString(req.body.asyncapispec, selectedTemplate, params);
+    if (genResponse !== undefined) {
+      responseKey = "message";
+      responseMessage = {
+        "message": "Client code generated!",
+        "ID": genResponse
+      };
+    } else {
+      responseKey = "error";
+      responseMessage = "Some error has occurred!";
+    }
+  }
+  
+  var response: {[key: string]: any} = {};
+  response[responseKey] = responseMessage;
+  res.json(response);
 });
 
 route.post("/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {

@@ -2,6 +2,6 @@
     "/api": {
         "target": "https://davibss-asyncapi-client-generator.onrender.com",
         "secure": false,
-        "logLevel": "debug"
+        "changeOrigin": true
     }
 }

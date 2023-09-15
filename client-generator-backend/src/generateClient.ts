@@ -1,5 +1,4 @@
-// @ts-ignore
-import generator from "@asyncapi/generator";
+const generator = require("@asyncapi/generator");
 import path from "path";
 import { clearIOs } from "./fileHandler";
 import { TemplateType, templates } from "./templateModel";
@@ -14,7 +13,6 @@ async function generateClientFromString(
     params: {[key: string]: string}
 ): Promise<string | undefined> {
     return generateClient(specContent, template, params);
-    // return generateClient
 }
 
 async function generateClient(

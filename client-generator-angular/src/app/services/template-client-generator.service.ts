@@ -15,7 +15,7 @@ interface GenerateCodeResponse {
 })
 export class TemplateClientGeneratorService {
 
-  private baseURL = 'http://localhost:3333';
+  // private baseURL = 'https://asyncapi-client-generator.vercel.app';
   private finalTemplateContent = "";
 
   constructor(
@@ -37,7 +37,7 @@ export class TemplateClientGeneratorService {
     setTimeout(() => {
       const generateId = response.message.ID;
       this.http
-        .get(`${this.baseURL}/download_client/${generateId}`, {
+        .get(`/api/download_client/${generateId}`, {
           responseType: "arraybuffer"
         })
         .subscribe(response => {
@@ -60,7 +60,7 @@ export class TemplateClientGeneratorService {
     formData.append("asyncapispec", specFile);
     console.log("Generating code...")
     this.http
-      .post(`${this.baseURL}/generate`, 
+      .post(`/api/generate`, 
         formData,
         {
           params: {
@@ -77,7 +77,7 @@ export class TemplateClientGeneratorService {
     formData.append("asyncapispec", templateContent);
     console.log("Generating code...")
     this.http
-      .post(`${this.baseURL}/generate_from_string`, 
+      .post(`/api/generate_from_string`, 
         formData,
         {
           params: {

@@ -6,6 +6,8 @@ import { upload } from "./upload";
 import path from "path";
 import { TemplateType, templates } from "./templateModel";
 import multer from "multer";
+import cors from "cors";
+
 const uploadMulter = multer();
 
 const app = express();
@@ -13,11 +15,15 @@ const route = Router();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors({
+  origin: "http://localhost:4200",
+  optionsSuccessStatus: 200
+}));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
@@ -25,7 +31,7 @@ route.get("/", (req: Request, res: Response) => {
   res.send("Express backend to generate client code from AsyncAPI specification");
 });
 
-route.post("/generate_from_string", uploadMulter.none(), async (req: Request, res: Response) => {
+route.post("/api/generate_from_string", uploadMulter.none(), async (req: Request, res: Response) => {
   var responseKey = "";
   var responseMessage: any;
   var selectedTemplate: TemplateType = "CPP";
@@ -63,7 +69,7 @@ route.post("/generate_from_string", uploadMulter.none(), async (req: Request, re
   res.json(response);
 });
 
-route.post("/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {
+route.post("/api/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {
   const reqFile = req.file;
   var responseKey = "";
   var responseMessage: any;
@@ -106,7 +112,7 @@ route.post("/generate", upload.single('asyncapispec'), async (req: Request, res:
   res.json(response);
 });
 
-route.get("/download_client/:id", (req: Request, res: Response) => {
+route.get("/api/download_client/:id", (req: Request, res: Response) => {
   const filePath = path.join(BASE_DIR, "output", req.params.id);
   const zipFile = extractZipFileFromPath(filePath);
   if (zipFile) {
@@ -118,7 +124,7 @@ route.get("/download_client/:id", (req: Request, res: Response) => {
   }
 });
 
-route.get("/ping", (req: Request, res: Response) => {
+route.get("/api/ping", (req: Request, res: Response) => {
   res.json({"message": "PONG"});
 });
 

@@ -1,20 +1,22 @@
-<div>
-    <input 
-        type="radio" 
-        id="cpp" 
-        name="language" 
-        value="CPP" 
-        checked
-        (change)="selectedTemplate = 'CPP'"
-    >
-    <label for="cpp">CPP</label><br>
-    <input 
-        type="radio" 
-        id="angular" 
-        name="language" 
-        value="Angular"
-        (change)="selectedTemplate = 'ANGULAR'"
-    >
-    <label for="angular">Angular</label><br>
+<div class="container">
+    <div class="radio-group">
+        <input 
+            type="radio" 
+            id="cpp" 
+            name="language" 
+            value="CPP" 
+            checked
+            (change)="selectedTemplate = 'CPP'"
+        >
+        <label for="cpp" [ngClass]="{'selected': selectedTemplate === 'CPP'}">CPP</label><br>
+        <input 
+            type="radio" 
+            id="angular" 
+            name="language" 
+            value="Angular"
+            (change)="selectedTemplate = 'ANGULAR'"
+        >
+        <label for="angular" [ngClass]="{'selected': selectedTemplate === 'ANGULAR'}">Angular</label><br>
+    </div>
     <button (click)="handleGenerateCode()">Generate code</button>
 </div>

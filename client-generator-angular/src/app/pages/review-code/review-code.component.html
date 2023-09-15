@@ -1,9 +1,10 @@
-<div>
-    <h1>Files</h1>
-    <div class="container">
+<div class="container">
+    <h1>Generated Files</h1>
+    <div class="main-content">
         <div class="file-container">
-            <p *ngFor="let file of files" (click)="handleOnClickFile(file)">
-                {{file.name}}
+            <p *ngFor="let file of files" (click)="handleOnClickFile(file)" class="fileName">
+                <app-file-icon class="fileIcon" fillColor="#FFFFFF" height="16px" width="16px"></app-file-icon>
+                <span>{{file.name}}</span>
             </p>
         </div>
         <div class="code-container">

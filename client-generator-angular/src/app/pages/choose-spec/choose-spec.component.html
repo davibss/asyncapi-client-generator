@@ -6,7 +6,10 @@
         <span>Choose a file</span>
     </label>
     <div class="content">
-        <app-editor [(text)]="specFileContent" mode="ace/mode/yaml" ></app-editor>
+        <app-editor 
+            [(text)]="specFileContent" 
+            mode="ace/mode/yaml"
+        ></app-editor>
     </div>
     <nav>
         <a (click)="handleChooseGenerator()">Next step</a>

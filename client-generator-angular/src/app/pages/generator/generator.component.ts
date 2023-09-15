@@ -12,6 +12,6 @@ export class GeneratorComponent {
   constructor(private templateClientGenerator: TemplateClientGeneratorService) {}
 
   handleGenerateCode() {
-    this.templateClientGenerator.generateClient(this.selectedTemplate);
+    this.templateClientGenerator.generateClientFromString(this.selectedTemplate);
   } 
 }

@@ -12,6 +12,7 @@ import { EditorModule } from './editor/editor.module';
 import { HttpClientModule } from '@angular/common/http';
 import { GeneratorComponent } from './pages/generator/generator.component';
 import { UploadSvgComponent } from './components/upload-svg/upload-svg.component';
+import { FileIconComponent } from './components/file-icon/file-icon.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UploadSvgComponent } from './components/upload-svg/upload-svg.component
     HomeComponent,
     LandingComponent,
     GeneratorComponent,
-    UploadSvgComponent
+    UploadSvgComponent,
+    FileIconComponent
   ],
   imports: [
     BrowserModule,

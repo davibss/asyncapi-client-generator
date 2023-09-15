@@ -11,6 +11,29 @@ body {
 	overflow: hidden;
 }
 
+.ace_editor, .ace_editor *{
+	font-family: "Monaco", "Menlo", "Ubuntu Mono", "Droid Sans Mono", "Consolas", monospace !important;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	letter-spacing: 0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--divider-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-text);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--secondary-text) 70%, black);
+}
+
 :root {
 	--dark-primary-color: #455a64;
 	--light-primary-color: #cfd8dc;

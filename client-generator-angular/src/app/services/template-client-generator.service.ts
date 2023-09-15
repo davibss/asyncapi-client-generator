@@ -16,12 +16,21 @@ interface GenerateCodeResponse {
 export class TemplateClientGeneratorService {
 
   private baseURL = 'http://localhost:3333';
+  private finalTemplateContent = "";
 
   constructor(
     private fileHandlerService: FileHandlerService, 
     private http: HttpClient,
     private router: Router
   ) { }
+
+  getFinalTemplateContent() {
+    return this.finalTemplateContent;
+  }
+
+  setFinalTemplateContent(content: string) {
+    this.finalTemplateContent = content;
+  }
 
   private handleGenerateCodeResponse(response: GenerateCodeResponse) {
     console.log("Code Generated. Downloading file...");
@@ -36,7 +45,6 @@ export class TemplateClientGeneratorService {
             var blob = new Blob([response], { type: 'application/zip' });
             const file = new File([blob], "generated_code.zip");
             this.fileHandlerService.setGeneratedZipFile(file);
-            // this.fileHandlerService.downLoadFile(response, 'application/zip', "generated_code.zip");
             this.fileHandlerService.extractZip(file);
             this.router.navigate(['generation', 'review']);
             console.log("File downloaded");
@@ -64,10 +72,33 @@ export class TemplateClientGeneratorService {
       .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse));
   }
 
+  private async generateFromSpecString(templateContent: string, templateLanguage: string = "CPP") {  
+    const formData = new FormData();
+    formData.append("asyncapispec", templateContent);
+    console.log("Generating code...")
+    this.http
+      .post(`${this.baseURL}/generate_from_string`, 
+        formData,
+        {
+          params: {
+            "template": templateLanguage,
+            "params": `{"zip": "true"}`
+          }
+        }
+      )
+      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse));
+  }
+
   generateClient(templateLanguage: string) {
     const specInput = this.fileHandlerService.getSpecFile();
     if (specInput) {
      this.generateFromSpecFile(specInput, templateLanguage);
+    }
+  }
+
+  generateClientFromString(templateLanguage: string) {
+    if (this.finalTemplateContent !== "") {
+      this.generateFromSpecString(this.finalTemplateContent, templateLanguage);
     }
   }
 }

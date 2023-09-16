@@ -13,7 +13,6 @@ export function deleteDir(path: string) {
 
 export function clearIOs(paths: string[]) {
     for (let singlePath of paths) {
-        // fs.rmSync
     }
 }
 

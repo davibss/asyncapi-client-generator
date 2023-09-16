@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileHandlerService } from './file-handler.service';
 import { HttpClient } from '@angular/common/http';
 import { Route, Router } from '@angular/router';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
 
 interface GenerateCodeResponse {
   message: {

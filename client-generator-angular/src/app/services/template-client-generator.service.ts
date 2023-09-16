@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FileHandlerService } from './file-handler.service';
 import { HttpClient } from '@angular/common/http';
 import { Route, Router } from '@angular/router';
+import { environment } from 'src/environments/environment.development';
 
 interface GenerateCodeResponse {
   message: {
@@ -15,7 +16,7 @@ interface GenerateCodeResponse {
 })
 export class TemplateClientGeneratorService {
 
-  // private baseURL = 'https://asyncapi-client-generator.vercel.app';
+  private baseURL = environment.generateAPI;
   private finalTemplateContent = "";
 
   constructor(
@@ -37,7 +38,7 @@ export class TemplateClientGeneratorService {
     setTimeout(() => {
       const generateId = response.message.ID;
       this.http
-        .get(`/api/download_client/${generateId}`, {
+        .get(`${this.baseURL}/api/download_client/${generateId}`, {
           responseType: "arraybuffer"
         })
         .subscribe(response => {
@@ -60,7 +61,7 @@ export class TemplateClientGeneratorService {
     formData.append("asyncapispec", specFile);
     console.log("Generating code...")
     this.http
-      .post(`/api/generate`, 
+      .post(`${this.baseURL}/api/generate`, 
         formData,
         {
           params: {
@@ -77,7 +78,7 @@ export class TemplateClientGeneratorService {
     formData.append("asyncapispec", templateContent);
     console.log("Generating code...")
     this.http
-      .post(`/api/generate_from_string`, 
+      .post(`${this.baseURL}/api/generate_from_string`, 
         formData,
         {
           params: {

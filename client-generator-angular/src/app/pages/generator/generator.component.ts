@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { TemplateClientGeneratorService } from 'src/app/services/template-client-generator.service';
 
 @Component({
@@ -8,10 +10,26 @@ import { TemplateClientGeneratorService } from 'src/app/services/template-client
 })
 export class GeneratorComponent {
   selectedTemplate: string = 'CPP';
+  mode: ProgressSpinnerMode = "indeterminate";
+  color: ThemePalette = "primary";
+  loading: boolean = false;
 
   constructor(private templateClientGenerator: TemplateClientGeneratorService) {}
 
   handleGenerateCode() {
-    this.templateClientGenerator.generateClientFromString(this.selectedTemplate);
-  } 
+    this.loading = true;
+    if (this.loading && this.selectedTemplate !== "") {
+      try {
+        this.templateClientGenerator.generateClientFromString(this.selectedTemplate, () => {
+          this.loading = false;
+        });
+      } catch(_) {
+        this.loading = false;
+      }
+    }
+  }
+
+  handleLoadingChange() {
+    this.loading = !this.loading;
+  }
 }

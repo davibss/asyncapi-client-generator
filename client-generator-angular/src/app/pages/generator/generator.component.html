@@ -18,5 +18,13 @@
         >
         <label for="angular" [ngClass]="{'selected': selectedTemplate === 'ANGULAR'}">Angular</label><br>
     </div>
-    <button (click)="handleGenerateCode()">Generate code</button>
+    <button (click)="handleGenerateCode()" [disabled]="loading">
+        <mat-progress-spinner 
+            *ngIf="loading"
+            [color]="color" 
+            [mode]="mode" 
+            class="progress-spinner"
+        ></mat-progress-spinner>
+        <span>{{loading ? "Generating" : "Generate"}} code</span>
+    </button>
 </div>

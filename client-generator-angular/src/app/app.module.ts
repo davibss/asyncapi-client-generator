@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GeneratorComponent } from './pages/generator/generator.component';
 import { UploadSvgComponent } from './components/upload-svg/upload-svg.component';
 import { FileIconComponent } from './components/file-icon/file-icon.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { FileIconComponent } from './components/file-icon/file-icon.component';
     BrowserModule,
     AppRoutingModule,
     EditorModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

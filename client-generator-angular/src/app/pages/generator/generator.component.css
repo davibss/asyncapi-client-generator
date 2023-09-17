@@ -56,6 +56,11 @@
     cursor: pointer;
     transition: font-size 0.2s;
     border-radius: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .container button:hover {
@@ -64,4 +69,18 @@
 
 .container button:active {
     font-size: 1rem;
+}
+
+.container button:disabled {
+    opacity: 70%;
+    cursor: not-allowed;
+}
+
+.container button .progress-spinner {
+    max-width: 1rem;
+    max-height: 1rem;
+}
+
+::ng-deep .mat-mdc-progress-spinner {
+    --mdc-circular-progress-active-indicator-color: var(--text-icons);
 }

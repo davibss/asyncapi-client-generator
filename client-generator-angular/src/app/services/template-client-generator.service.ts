@@ -3,6 +3,7 @@ import { FileHandlerService } from './file-handler.service';
 import { HttpClient } from '@angular/common/http';
 import { Route, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Subscription } from 'rxjs';
 
 interface GenerateCodeResponse {
   message: {
@@ -33,7 +34,7 @@ export class TemplateClientGeneratorService {
     this.finalTemplateContent = content;
   }
 
-  private handleGenerateCodeResponse(response: GenerateCodeResponse) {
+  private handleGenerateCodeResponse(response: GenerateCodeResponse, callback: () => void) {
     console.log("Code Generated. Downloading file...");
     setTimeout(() => {
       const generateId = response.message.ID;
@@ -49,6 +50,7 @@ export class TemplateClientGeneratorService {
             this.fileHandlerService.extractZip(file);
             this.router.navigate(['generation', 'review']);
             console.log("File downloaded");
+            callback();
           } catch(err) {
             window.alert("some error occurred!");
           }
@@ -70,10 +72,10 @@ export class TemplateClientGeneratorService {
           }
         }
       )
-      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse));
+      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, () => {}));
   }
 
-  private async generateFromSpecString(templateContent: string, templateLanguage: string = "CPP") {  
+  private generateFromSpecString(templateContent: string, templateLanguage: string = "CPP", callback: () => void) {  
     const formData = new FormData();
     formData.append("asyncapispec", templateContent);
     console.log("Generating code...")
@@ -87,7 +89,7 @@ export class TemplateClientGeneratorService {
           }
         }
       )
-      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse));
+      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, callback));
   }
 
   generateClient(templateLanguage: string) {
@@ -97,9 +99,7 @@ export class TemplateClientGeneratorService {
     }
   }
 
-  generateClientFromString(templateLanguage: string) {
-    if (this.finalTemplateContent !== "") {
-      this.generateFromSpecString(this.finalTemplateContent, templateLanguage);
-    }
+  generateClientFromString(templateLanguage: string, callback: () => void) {
+    this.generateFromSpecString(this.finalTemplateContent, templateLanguage, callback);
   }
 }

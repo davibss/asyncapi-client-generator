@@ -32,7 +32,6 @@ export class ReviewCodeComponent implements OnInit {
     this.selectedFileContent = await file.async("string");
     var filePath = file.name;
     this.selectedMode = getModeForPath(filePath).mode;
-    console.log(this.selectedMode);
   }
 
   async handleDownloadButton() {

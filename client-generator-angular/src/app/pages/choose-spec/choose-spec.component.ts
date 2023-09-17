@@ -8,9 +8,9 @@ import { TemplateClientGeneratorService } from 'src/app/services/template-client
   templateUrl: './choose-spec.component.html',
   styleUrls: ['./choose-spec.component.css']
 })
-export class ChooseSpecComponent implements AfterViewInit {
+export class ChooseSpecComponent implements OnInit {
   specFileContent: string = "";
-  private fileReader;
+  private fileReader?: FileReader;
   @ViewChild('fileUpload') fileUpload!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -20,12 +20,14 @@ export class ChooseSpecComponent implements AfterViewInit {
   ) {
     this.fileReader = new FileReader();
     this.fileReader.onload = (e) => {
-      this.specFileContent = this.fileReader.result?.toString() ?? "";
+      this.specFileContent = this.fileReader?.result?.toString() ?? "";
     };
-    fileHandlerService.subscribeToSpecFile().subscribe(file => this.handleFileHandlerSubscribe(file, this.fileReader));
+    this.fileHandlerService
+      .subscribeToSpecFile()
+      .subscribe(file => this.handleFileHandlerSubscribe(file, this.fileReader));
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     const file = this.fileHandlerService.getSpecFile();
     const finalTemplateContent = this.templateClientGenerator.getFinalTemplateContent();
     this.specFileContent = finalTemplateContent;
@@ -37,8 +39,8 @@ export class ChooseSpecComponent implements AfterViewInit {
     }
   }
 
-  private handleFileHandlerSubscribe(file: File, fileReader: FileReader) {
-    if (file) {
+  private handleFileHandlerSubscribe(file: File, fileReader?: FileReader) {
+    if (file && fileReader) {
       fileReader.readAsText(file);
     }
   }

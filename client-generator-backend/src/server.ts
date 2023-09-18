@@ -47,7 +47,7 @@ route.post("/api/generate_from_string", uploadMulter.none(), async (req: Request
 
   if (selectedTemplate === undefined) {
     responseKey = "error";
-    responseMessage = "This template does not exist. The valid template are CPP and ANGULAR";
+    responseMessage = "This template does not exist. The valid templates are CPP and ANGULAR";
   }
 
   if (selectedTemplate && responseKey !== "error") {
@@ -55,7 +55,6 @@ route.post("/api/generate_from_string", uploadMulter.none(), async (req: Request
     if (genResponse !== undefined) {
       responseKey = "message";
       responseMessage = {
-        "message": "Client code generated!",
         "ID": genResponse
       };
     } else {
@@ -66,7 +65,8 @@ route.post("/api/generate_from_string", uploadMulter.none(), async (req: Request
   
   var response: {[key: string]: any} = {};
   response[responseKey] = responseMessage;
-  res.json(response);
+  const statusCode = responseKey === "error" ? 400 : 201;
+  res.status(statusCode).json(response);
 });
 
 route.post("/api/generate", upload.single('asyncapispec'), async (req: Request, res: Response) => {
@@ -94,7 +94,6 @@ route.post("/api/generate", upload.single('asyncapispec'), async (req: Request, 
     if (genResponse !== undefined) {
       responseKey = "message";
       responseMessage = {
-        "message": "Client code generated!",
         "ID": genResponse
       };
     } else {
@@ -109,7 +108,8 @@ route.post("/api/generate", upload.single('asyncapispec'), async (req: Request, 
   
   var response: {[key: string]: any} = {};
   response[responseKey] = responseMessage;
-  res.json(response);
+  const statusCode = responseKey === "error" ? 400 : 201;
+  res.status(statusCode).json(response);
 });
 
 route.get("/api/download_client/:id", (req: Request, res: Response) => {

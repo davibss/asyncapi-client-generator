@@ -11,11 +11,6 @@ export function deleteDir(path: string) {
     fs.rmSync(path, { recursive: true });
 }
 
-export function clearIOs(paths: string[]) {
-    for (let singlePath of paths) {
-    }
-}
-
 export function extractZipFileFromPath(path: string): string | undefined {
     var result = undefined;
     if (fs.lstatSync(path).isDirectory()) {

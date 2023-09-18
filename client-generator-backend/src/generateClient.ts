@@ -1,6 +1,5 @@
 const generator = require("@asyncapi/generator");
 import path from "path";
-import { clearIOs } from "./fileHandler";
 import { TemplateType, templates } from "./templateModel";
 import crypto from "crypto";
 import { File } from "buffer";
@@ -42,11 +41,11 @@ async function generateClient(
                 const _ = await generatorInstance.generateFromString(specFile);
             } else {
                 const _ = await generatorInstance.generateFromFile((specFile as Express.Multer.File).path);
-                clearIOs([(specFile as Express.Multer.File).path, choosedTemplate.output]);
             }
         }
     } catch (e) {
         console.error(e);
+        return undefined;
     }
 
     return result;

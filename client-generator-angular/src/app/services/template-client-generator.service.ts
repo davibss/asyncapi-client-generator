@@ -59,9 +59,6 @@ export class TemplateClientGeneratorService {
             window.alert("some error occurred while getting generated zip");
           }
         });
-    // setTimeout(() => {
-      
-    // }, 1000);
   }
 
   private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP") {  

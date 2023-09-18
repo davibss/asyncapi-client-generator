@@ -35,8 +35,8 @@ async function generateClient(
     );
 
     try {
+        result = fileID;
         if (specFile) {
-            result = fileID;
             if (typeof specFile === "string") {
                 const _ = await generatorInstance.generateFromString(specFile);
             } else {
@@ -44,7 +44,6 @@ async function generateClient(
             }
         }
     } catch (e) {
-        console.error(e);
         return undefined;
     }
 

@@ -101,7 +101,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private setEditorMode_(): void {
-    // this.editor.getSession().setMode(`ace/mode/${this.mode}`);
     this.editor.getSession().setMode(this.mode);
   }
 

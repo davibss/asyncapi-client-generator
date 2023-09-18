@@ -15,13 +15,12 @@ export class ReviewCodeComponent implements OnInit {
   selectedFileContent: string = "";
   selectedMode: string = "json";
 
-  constructor(private fileHandlerService: FileHandlerService) {
-    this.fileHandlerService.generatedFiles.subscribe(jsZipFiles => {
-      this.files = jsZipFiles;
-    })
-  }
+  constructor(private fileHandlerService: FileHandlerService) {}
 
   ngOnInit(): void {
+    this.fileHandlerService.generatedFiles.subscribe(jsZipFiles => {
+      this.files = jsZipFiles;
+    });
     const zipFile = this.fileHandlerService.getGeneratedZipFile();
     if (zipFile) {
       this.fileHandlerService.extractZip(zipFile);
@@ -30,8 +29,7 @@ export class ReviewCodeComponent implements OnInit {
 
   async handleOnClickFile(file: JSZip.JSZipObject) {
     this.selectedFileContent = await file.async("string");
-    var filePath = file.name;
-    this.selectedMode = getModeForPath(filePath).mode;
+    this.selectedMode = getModeForPath(file.name).mode;
   }
 
   async handleDownloadButton() {

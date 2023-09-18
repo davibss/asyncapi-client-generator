@@ -6,7 +6,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   showHeader: boolean = true;
 
@@ -16,9 +16,5 @@ export class HomeComponent implements OnInit {
         this.showHeader = event.url === "/generation";
       }
     })
-  } 
-
-  ngOnInit(): void {
-    
   }
 }

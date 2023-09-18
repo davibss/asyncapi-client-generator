@@ -20,16 +20,12 @@ export class GeneratorComponent {
     this.loading = true;
     if (this.loading && this.selectedTemplate !== "") {
       try {
-        this.templateClientGenerator.generateClientFromString(this.selectedTemplate, () => {
-          this.loading = false;
-        });
+        this.templateClientGenerator.generateClientFromString(
+          this.selectedTemplate, () => { this.loading = false; }
+        );
       } catch(_) {
         this.loading = false;
       }
     }
-  }
-
-  handleLoadingChange() {
-    this.loading = !this.loading;
   }
 }

@@ -42,20 +42,25 @@ export class TemplateClientGeneratorService {
         .get(`${this.baseURL}/api/download_client/${generateId}`, {
           responseType: "arraybuffer"
         })
-        .subscribe(response => {
-          try {
-            var blob = new Blob([response], { type: 'application/zip' });
-            const file = new File([blob], "generated_code.zip");
-            this.fileHandlerService.setGeneratedZipFile(file);
-            this.fileHandlerService.extractZip(file);
-            this.router.navigate(['generation', 'review']);
-            console.log("File downloaded");
-            callback();
-          } catch(err) {
+        .subscribe({
+          next: (response) => {
+            try {
+              var blob = new Blob([response], { type: 'application/zip' });
+              const file = new File([blob], "generated_code.zip");
+              this.fileHandlerService.setGeneratedZipFile(file);
+              this.fileHandlerService.extractZip(file);
+              console.log("File downloaded");
+              callback();
+              this.router.navigate(['generation', 'review']);
+            } catch(err) {
+              window.alert("some error occurred!");
+            }  
+          },
+          error(err) {
             window.alert("some error occurred!");
           }
         });
-    }, 1000);
+    }, 500);
   }
 
   private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP") {  
@@ -89,7 +94,15 @@ export class TemplateClientGeneratorService {
           }
         }
       )
-      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, callback));
+      .subscribe({
+        next: (response) => {
+          this.handleGenerateCodeResponse(response as GenerateCodeResponse, callback);
+        },
+        error(err) {
+          window.alert("some error has occurred");
+          callback();
+        },
+      });
   }
 
   generateClient(templateLanguage: string) {

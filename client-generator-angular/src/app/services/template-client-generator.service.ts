@@ -36,8 +36,7 @@ export class TemplateClientGeneratorService {
 
   private handleGenerateCodeResponse(response: GenerateCodeResponse, callback: () => void) {
     console.log("Code Generated. Downloading file...");
-    setTimeout(() => {
-      const generateId = response.message.ID;
+    const generateId = response.message.ID;
       this.http
         .get(`${this.baseURL}/api/download_client/${generateId}`, {
           responseType: "arraybuffer"
@@ -57,10 +56,12 @@ export class TemplateClientGeneratorService {
             }  
           },
           error(err) {
-            window.alert("some error occurred!");
+            window.alert("some error occurred while getting generated zip");
           }
         });
-    }, 500);
+    // setTimeout(() => {
+      
+    // }, 1000);
   }
 
   private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP") {  
@@ -99,7 +100,7 @@ export class TemplateClientGeneratorService {
           this.handleGenerateCodeResponse(response as GenerateCodeResponse, callback);
         },
         error(err) {
-          window.alert("some error has occurred");
+          window.alert("some error has occurred in generation process");
           callback();
         },
       });

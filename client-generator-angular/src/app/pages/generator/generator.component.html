@@ -18,6 +18,15 @@
         >
         <label for="angular" [ngClass]="{'selected': selectedTemplate === 'ANGULAR'}">Angular</label><br>
     </div>
+    <mat-slide-toggle
+        class="slide-toggle"
+        *ngIf="selectedTemplate === 'CPP'"
+        [color]="color"
+        [checked]="onlySourceFiles"
+        (toggleChange)="onlySourceFiles = !onlySourceFiles"
+    >
+        <p>Only source files</p>
+    </mat-slide-toggle>
     <button (click)="handleGenerateCode()" [disabled]="loading">
         <mat-progress-spinner 
             *ngIf="loading"

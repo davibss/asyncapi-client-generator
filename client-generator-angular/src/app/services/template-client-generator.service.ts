@@ -19,6 +19,7 @@ export class TemplateClientGeneratorService {
 
   private baseURL = environment.generateAPI;
   private finalTemplateContent = "";
+  private params = {"zip": "true"};
 
   constructor(
     private fileHandlerService: FileHandlerService, 
@@ -53,15 +54,17 @@ export class TemplateClientGeneratorService {
               this.router.navigate(['generation', 'review']);
             } catch(err) {
               window.alert("some error occurred!");
+              callback();
             }  
           },
           error(err) {
             window.alert("some error occurred while getting generated zip");
+            callback();
           }
         });
   }
 
-  private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP") {  
+  private async generateFromSpecFile(specFile: File, templateLanguage: string = "CPP", params: {[key: string]: string}) {  
     const formData = new FormData();
     formData.append("asyncapispec", specFile);
     console.log("Generating code...")
@@ -71,14 +74,19 @@ export class TemplateClientGeneratorService {
         {
           params: {
             "template": templateLanguage,
-            "params": `{"zip": "true"}`
+            "params": JSON.stringify({...params, ...this.params})
           }
         }
       )
       .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, () => {}));
   }
 
-  private generateFromSpecString(templateContent: string, templateLanguage: string = "CPP", callback: () => void) {  
+  private generateFromSpecString(
+    templateContent: string, 
+    templateLanguage: string = "CPP", 
+    params: {[key: string]: string},
+    callback: () => void
+  ) {  
     const formData = new FormData();
     formData.append("asyncapispec", templateContent);
     console.log("Generating code...")
@@ -88,7 +96,7 @@ export class TemplateClientGeneratorService {
         {
           params: {
             "template": templateLanguage,
-            "params": `{"zip": "true"}`
+            "params": JSON.stringify({...params, ...this.params})
           }
         }
       )
@@ -103,14 +111,14 @@ export class TemplateClientGeneratorService {
       });
   }
 
-  generateClient(templateLanguage: string) {
+  generateClient(templateLanguage: string, params: {[key: string]: string}) {
     const specInput = this.fileHandlerService.getSpecFile();
     if (specInput) {
-     this.generateFromSpecFile(specInput, templateLanguage);
+     this.generateFromSpecFile(specInput, templateLanguage, params);
     }
   }
 
-  generateClientFromString(templateLanguage: string, callback: () => void) {
-    this.generateFromSpecString(this.finalTemplateContent, templateLanguage, callback);
+  generateClientFromString(templateLanguage: string, callback: () => void, params: {[key: string]: string} = {}) {
+    this.generateFromSpecString(this.finalTemplateContent, templateLanguage, params, callback);
   }
 }

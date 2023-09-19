@@ -15,6 +15,7 @@ import { UploadSvgComponent } from './components/upload-svg/upload-svg.component
 import { FileIconComponent } from './components/file-icon/file-icon.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     EditorModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

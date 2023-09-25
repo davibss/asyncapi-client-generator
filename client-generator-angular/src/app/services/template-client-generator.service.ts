@@ -35,7 +35,7 @@ export class TemplateClientGeneratorService {
     this.finalTemplateContent = content;
   }
 
-  private handleGenerateCodeResponse(response: GenerateCodeResponse, callback: () => void) {
+  private handleGenerateCodeResponse(response: GenerateCodeResponse, templateLanguage: string, callback: () => void) {
     console.log("Code Generated. Downloading file...");
     const generateId = response.message.ID;
       this.http
@@ -46,7 +46,7 @@ export class TemplateClientGeneratorService {
           next: (response) => {
             try {
               var blob = new Blob([response], { type: 'application/zip' });
-              const file = new File([blob], "generated_code.zip");
+              const file = new File([blob], `generated_code_${templateLanguage.toLowerCase()}.zip`);
               this.fileHandlerService.setGeneratedZipFile(file);
               this.fileHandlerService.extractZip(file);
               console.log("File downloaded");
@@ -78,7 +78,7 @@ export class TemplateClientGeneratorService {
           }
         }
       )
-      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, () => {}));
+      .subscribe(response => this.handleGenerateCodeResponse(response as GenerateCodeResponse, templateLanguage, () => {}));
   }
 
   private generateFromSpecString(
@@ -102,7 +102,7 @@ export class TemplateClientGeneratorService {
       )
       .subscribe({
         next: (response) => {
-          this.handleGenerateCodeResponse(response as GenerateCodeResponse, callback);
+          this.handleGenerateCodeResponse(response as GenerateCodeResponse, templateLanguage, callback);
         },
         error(err) {
           window.alert("some error has occurred in generation process");

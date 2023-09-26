@@ -14,8 +14,9 @@ import { GeneratorComponent } from './pages/generator/generator.component';
 import { UploadSvgComponent } from './components/upload-svg/upload-svg.component';
 import { FileIconComponent } from './components/file-icon/file-icon.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     HttpClientModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

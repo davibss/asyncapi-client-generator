@@ -27,7 +27,7 @@
     >
         <p>Only source files</p>
     </mat-slide-toggle>
-    <div class="select-server-container">
+    <div class="select-server-container" *ngIf="selectedTemplate === 'CPP'">
         <label for="select-server">Choose a server:</label>
         <mat-select 
             [(value)]="selectedServer" 

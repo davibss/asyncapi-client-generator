@@ -34,10 +34,18 @@ export class GeneratorComponent implements OnInit {
     loadServers();
   }
 
+  handleLanguageClick(language: string) {
+    this.selectedTemplate = language;
+    if (language === 'ANGULAR') {
+      this.onlySourceFiles = true;
+    }
+  }
+
   handleGenerateCode() {
     this.loading = true;
     const params: {[key: string]: string} = {};
-    if (this.onlySourceFiles && this.selectedTemplate === 'CPP') {
+    params["onlySourceFiles"] = "false";
+    if (this.onlySourceFiles && (this.selectedTemplate === 'CPP' || this.selectedTemplate === 'ANGULAR')) {
       params["onlySourceFiles"] = "true";
     }
     if (this.selectedServer !== "default") {

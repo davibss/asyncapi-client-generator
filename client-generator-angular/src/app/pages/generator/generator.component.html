@@ -6,7 +6,7 @@
             name="language" 
             value="CPP" 
             checked
-            (change)="selectedTemplate = 'CPP'"
+            (change)="handleLanguageClick('CPP')"
         >
         <label for="cpp" [ngClass]="{'selected': selectedTemplate === 'CPP'}">CPP</label><br>
         <input 
@@ -14,13 +14,13 @@
             id="angular" 
             name="language" 
             value="Angular"
-            (change)="selectedTemplate = 'ANGULAR'"
+            (change)="handleLanguageClick('ANGULAR')"
         >
         <label for="angular" [ngClass]="{'selected': selectedTemplate === 'ANGULAR'}">Angular</label><br>
     </div>
     <mat-slide-toggle
         class="slide-toggle"
-        *ngIf="selectedTemplate === 'CPP'"
+        *ngIf="selectedTemplate === 'CPP' || selectedTemplate === 'ANGULAR'"
         [color]="color"
         [checked]="onlySourceFiles"
         (toggleChange)="onlySourceFiles = !onlySourceFiles"

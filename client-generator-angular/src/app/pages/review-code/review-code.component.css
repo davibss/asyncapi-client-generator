@@ -42,7 +42,7 @@
 }
 
 .main-content .file-container {
-    width: 30%;
+    width: 45%;
     max-height: 500px;
     display: flex;
     flex-direction: column;

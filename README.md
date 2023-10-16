@@ -9,8 +9,28 @@ The backend is a NodeJS micro service providing routes to receive a specificatio
 ## Frontend
 The frontend is an Angular micro service providing a web application to allow users to use the generator. It interacts with the backend to allow intuitive generation, visualization and download of the generated code. 
 
-## Running
-### Run the backend
+## How to run with Docker?
+### Run with Docker Compose
+Ensure that you have Docker Engine and Docker Compose installed on your machine.
+```sh
+docker compose up -d
+```
+Now that you started both applications from the `docker-compose.yaml` file go to http://localhost:80 to access this application.
+If your ports `80` and `3333` are busy you can change the `docker-compose.yaml` file and map to another port like this:
+```yaml
+services:
+  angular-frontend-nginx:
+    build: client-generator-angular
+    ports:
+      - "81:80"
+  nodejs-backend:
+    build: client-generator-backend
+    ports:
+      - "3334:3333"
+```
+
+## How to run individually?
+### Run back-end
 ```sh
 cd client-generator-backend
 npm install
@@ -22,3 +42,4 @@ cd client-generator-angular
 npm install
 npm run start
 ```
+Now that you started both applications go to http://localhost:4200 to access this application.

@@ -1,0 +1,9 @@
+services:
+  angular-frontend-nginx:
+    build: client-generator-angular
+    ports:
+      - "80:80"
+  nodejs-backend:
+    build: client-generator-backend
+    ports:
+      - "3334:3333"

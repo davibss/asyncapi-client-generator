@@ -3,7 +3,7 @@ WORKDIR /app
 
 COPY . .
 RUN npm ci
-RUN npm run build
+RUN npm run build -- --configuration development
 # Serve Application using Nginx Server
 FROM nginx:alpine
 COPY --from=build /app/dist/client-generator-angular/ /usr/share/nginx/html

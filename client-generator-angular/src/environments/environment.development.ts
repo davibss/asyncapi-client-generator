@@ -1,3 +1,3 @@
 export const environment = {
-    generateAPI: "http://localhost:3333"
+    generateAPI: "http://localhost:3334"
 };

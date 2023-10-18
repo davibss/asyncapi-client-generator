@@ -2,7 +2,9 @@ services:
   angular-frontend-nginx:
     build: client-generator-angular
     ports:
-      - "80:80"
+      - "81:80"
+    depends_on:
+      - nodejs-backend
   nodejs-backend:
     build: client-generator-backend
     ports:

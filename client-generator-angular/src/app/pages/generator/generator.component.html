@@ -27,18 +27,6 @@
     >
         <p>Only source files</p>
     </mat-slide-toggle>
-    <div class="select-server-container" *ngIf="selectedTemplate === 'CPP'">
-        <label for="select-server">Choose a server:</label>
-        <mat-select 
-            [(value)]="selectedServer" 
-            class="select-server" 
-            id="select-server"
-            panelClass="select-server-panel"
-        >
-            <mat-option value="default">Default</mat-option>
-            <mat-option [value]="serverName" *ngFor="let serverName of asyncApiSpecServers">{{serverName}}</mat-option>
-        </mat-select>
-    </div>
     <button (click)="handleGenerateCode()" [disabled]="loading">
         <mat-progress-spinner 
             *ngIf="loading"
